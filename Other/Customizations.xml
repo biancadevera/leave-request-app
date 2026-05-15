@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26041.181" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26042.00167">
+  <Entities />
+  <Roles />
+  <Workflows />
+  <FieldSecurityProfiles />
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
+  <CustomControls />
+  <EntityDataProviders />
+  <CanvasApps />
+  <AIModels>
+    <AIModel>
+      <msdyn_aimodelid>{198e7056-b527-4a7b-b0d0-7a51c9e2d944}</msdyn_aimodelid>
+      <msdyn_name>Leave Request Email Extractor</msdyn_name>
+      <msdyn_templateid>{edfdb190-3791-45d8-9a6c-8f90a37c278a}</msdyn_templateid>
+      <statecode>1</statecode>
+      <statuscode>1</statuscode>
+      <IsCustomizable>1</IsCustomizable>
+      <msdyn_activerunconfigurationid>{9f4797f2-4be9-4266-8a45-2ba6d31211af}</msdyn_activerunconfigurationid>
+      <AIConfigurations>
+        <AIConfiguration>
+          <msdyn_aiconfigurationid>{9f4797f2-4be9-4266-8a45-2ba6d31211af}</msdyn_aiconfigurationid>
+          <msdyn_customconfiguration>{"version":"GptDynamicPrompt-2","prompt":[{"type":"literal","text":"You are an AI assistant that extracts leave request details from emails.\r\n\r\nExtract the following fields from the email and return ONLY a valid JSON object with no other text, no markdown, no backticks:\r\n\r\n{\r\n  \"LeaveType\": \"Vacation or Sick or Emergency\",\r\n  \"StartDate\": \"DD Month YYYY\",\r\n  \"EndDate\": \"DD Month YYYY\",\r\n  \"Reason\": \"reason text\"\r\n}\r\n\r\nIf a field is not mentioned, use \"Not specified\".\r\n\r\nEmail: "},{"type":"inputVariable","id":"EmailBody"},{"type":"literal","text":" "}],"definitions":{"inputs":[{"id":"EmailBody","text":"EmailBody","type":"text"}],"formulas":[],"data":[],"output":{"formats":["text"]}},"modelParameters":{"modelType":"gpt-41-mini","gptParameters":{"temperature":0}},"settings":{"recordRetrievalLimit":30,"shouldPreserveRecordLinks":null,"runtime":null},"code":"","signature":""}</msdyn_customconfiguration>
+          <msdyn_majoriterationnumber>4</msdyn_majoriterationnumber>
+          <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
+          <msdyn_name>198e7056-b527-4a7b-b0d0-7a51c9e2d944_5/14/2026 2:22:44 PM</msdyn_name>
+          <msdyn_modelrundataspecification>H4sIAAAAAAAACpWQQQuCQBCF/0rMeS9BdPCmZdAlQaX7lGMt6O6yOwuJ+N/TLIz00vm9+d5700Jm6HrQtkY+k3VSKwjWAo7KeE615lix5AaCFvbSmQqbE9YEAYCAkNnKi2dygxzXKKtIFwveSRKQGO4zsIKgxMqRgLwxgyfrWeoGnQAsCjl6dloxPXgODGeWbzBbP3EjdLTdfOhdz088/7ttuUU+Bs8GlFJJd08J3fDM36vDS1295dl5X/EJlRM0OJQBAAA=</msdyn_modelrundataspecification>
+          <msdyn_type>190690001</msdyn_type>
+          <msdyn_aimodelid>{198e7056-b527-4a7b-b0d0-7a51c9e2d944}</msdyn_aimodelid>
+          <msdyn_trainedmodelaiconfigurationpareid>{62bed245-684f-f111-bec6-000d3a372951}</msdyn_trainedmodelaiconfigurationpareid>
+          <statecode>2</statecode>
+          <statuscode>7</statuscode>
+          <IsCustomizable>1</IsCustomizable>
+          <msdyn_templateversion>1</msdyn_templateversion>
+        </AIConfiguration>
+        <AIConfiguration>
+          <msdyn_aiconfigurationid>{62bed245-684f-f111-bec6-000d3a372951}</msdyn_aiconfigurationid>
+          <msdyn_majoriterationnumber>1</msdyn_majoriterationnumber>
+          <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
+          <msdyn_modeldata>c31ac2ba-c128-44e1-ae77-55d231f7c2e7</msdyn_modeldata>
+          <msdyn_name>198e7056-b527-4a7b-b0d0-7a51c9e2d944_Training_5/14/2026 7:41:13 AM</msdyn_name>
+          <msdyn_modelrundataspecification>
+        {
+          "schemaVersion": 2,
+          "input": {},
+          "output": {}
+        }
+      </msdyn_modelrundataspecification>
+          <msdyn_type>190690000</msdyn_type>
+          <msdyn_aimodelid>{198e7056-b527-4a7b-b0d0-7a51c9e2d944}</msdyn_aimodelid>
+          <statecode>2</statecode>
+          <statuscode>6</statuscode>
+          <IsCustomizable>1</IsCustomizable>
+          <msdyn_templateversion>1</msdyn_templateversion>
+        </AIConfiguration>
+      </AIConfigurations>
+    </AIModel>
+    <AIModel>
+      <msdyn_aimodelid>{a3df4037-055c-49b3-9e84-b77506e6eae6}</msdyn_aimodelid>
+      <msdyn_name>LRA-LeaveFormProcessor</msdyn_name>
+      <msdyn_templateid>{10707e4e-1d56-e911-8194-000d3a6cd5a5}</msdyn_templateid>
+      <statecode>1</statecode>
+      <statuscode>1</statuscode>
+      <IsCustomizable>1</IsCustomizable>
+      <msdyn_activerunconfigurationid>{0ec995ce-6a4f-f111-bec6-000d3a372951}</msdyn_activerunconfigurationid>
+      <msdyn_modelcreationcontext>{}</msdyn_modelcreationcontext>
+      <AIConfigurations>
+        <AIConfiguration>
+          <msdyn_aiconfigurationid>{0ec995ce-6a4f-f111-bec6-000d3a372951}</msdyn_aiconfigurationid>
+          <msdyn_customconfiguration>{"version":"DocumentScanning-2","labels":{"Employee Name":{"defaultId":"275e0c79-93f5-475c-b2d2-ec4ea36ff3de","fieldType":"string","layoutSpecificIds":{}},"Employee Email":{"defaultId":"27033299-9891-4144-97a7-ef75f7080404","fieldType":"string","layoutSpecificIds":{}},"Leave Type":{"defaultId":"27d12758-cef4-497b-939e-5003820915dc","fieldType":"string","layoutSpecificIds":{}},"Start Date":{"defaultId":"e5cc423a-b059-4642-a975-57439a41ae7c","fieldType":"date","fieldFormat":"dmy","layoutSpecificIds":{}},"End Date":{"defaultId":"6e5e6d91-94ac-4e5f-a450-435507e0337e","fieldType":"date","fieldFormat":"dmy","layoutSpecificIds":{}},"Reason":{"defaultId":"84fb9177-37a7-4848-adf1-0c40ab103b3e","fieldType":"string","layoutSpecificIds":{}}},"tables":{},"layouts":{"Leave Forms":{"layoutId":"b5871041-f8fa-46e3-acf3-cf6225ad94f2"}}}</msdyn_customconfiguration>
+          <msdyn_majoriterationnumber>1</msdyn_majoriterationnumber>
+          <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
+          <msdyn_name>a3df4037-055c-49b3-9e84-b77506e6eae6_2026-05-14T07:59:18.080Z</msdyn_name>
+          <msdyn_modelrundataspecification>H4sIAAAAAAAACu1XS2/bMAz+K4JOG+C1KPY45LYlGVCgaIam2F226UCFXpCookbQ/z7KjzidkzUecowPtiHy+0TxoyV6y9cOip/Wa4G/wQdpDZ/dZPzWuIgP1uLSoMSaz7Z8IYNTor4XGviM84x/R/QyjwghmXMR4NuXpSlsCeXYf2GLqMEg4R5rl0ZutdgAf824lhrasWMghsmc9dYFhMJLh02wXCae6ycHm2z06swmE84pWYjkfe3KqrOgrPrXXLshqjWtyWxSWI5sYRzTr2b4SCyULfAsIZkXhu4fli8zdsOsZ58/ff14xVZG1cwDRm8CPUNUGJitmGCBplXAKpLiiuhXDaVQfIY+wi68H02W+yBfKcxVxKlSKZGDOrC0IQur/AmKpNXJnEvtlK0BWOuwPZnpLfBv2meh4j7dIA/CCx40FNZUsgRTHCiowcZCYX2ar8M/AOWa0JUEVR6uxlKg6CtxNGsT6J1t62zK+kdLTtVzH3UOfuzczNLWl2ldhs+JSm9DA1QU6cqGxC61kOq/JGmRF03OpskdiGdgfXmdqsce6qLF2bRYo/DIFgInabGHek+L5PRIZ9tltzpltzLlZC12mIsSZzw36CQM046wDnHZm86kQSMDilzBeZu0hpfMNmLfpb0FzK1SREkdDDNtNzbqc1r4fNdHrZs26l9M7/dcHWf0nrzqda1z2/Qrxyk7VxZa3+Nxdo5z+ik5jTH9voz5KHN/ANkzO04qDQAA</msdyn_modelrundataspecification>
+          <msdyn_type>190690001</msdyn_type>
+          <msdyn_aimodelid>{a3df4037-055c-49b3-9e84-b77506e6eae6}</msdyn_aimodelid>
+          <msdyn_trainedmodelaiconfigurationpareid>{9c1c9ac8-684f-f111-bec6-000d3a372951}</msdyn_trainedmodelaiconfigurationpareid>
+          <statecode>2</statecode>
+          <statuscode>7</statuscode>
+          <IsCustomizable>1</IsCustomizable>
+          <msdyn_templateversion>1</msdyn_templateversion>
+        </AIConfiguration>
+        <AIConfiguration>
+          <msdyn_aiconfigurationid>{9c1c9ac8-684f-f111-bec6-000d3a372951}</msdyn_aiconfigurationid>
+          <msdyn_customconfiguration>{"version":"DocumentScanning-1","shouldReturnTableFromUnsupervisedModel":false,"defaultLayoutId":"b5871041-f8fa-46e3-acf3-cf6225ad94f2","displayNameMapping":{},"requiredFeatures":["isV4"]}</msdyn_customconfiguration>
+          <msdyn_databinding>{"schemaVersion":2,"input":{"schemaName":"msdyn_aibdatasetfile","queries":{"train":{"type":"fetchXml","query":"&lt;fetch mapping=\"logical\"&gt;\n    &lt;entity name=\"msdyn_aibdatasetfile\"&gt;\n      &lt;filter type=\"and\"&gt;\n  &lt;condition attribute=\"msdyn_aibdatasetid\" operator=\"eq\" value=\"fa6f0fe2-3806-432a-a530-7a842d8b66da\"/&gt;\n&lt;/filter&gt;\n    &lt;/entity&gt;\n  &lt;/fetch&gt;"}},"relatedEntities":[{"schemaName":"msdyn_AIBDatasetFile_msdyn_AIBuilde","cardinality":"ManyToOne","attributes":[{"specificationName":"binaryName","schemaName":"msdyn_file","dataType":"Undefined","requiredLevel":"ApplicationRequired"}]},{"schemaName":"msdyn_AIBFileAttachedData_msdyn_AIB","specificationName":"labels","cardinality":"OneToMany","queries":{"train":{"type":"fetchXml","query":"&lt;fetch mapping=\"logical\"&gt;\n    &lt;entity name=\"msdyn_aibfileattacheddata\"&gt;\n      &lt;filter type=\"and\"&gt;\n  &lt;condition attribute=\"msdyn_type\" operator=\"eq\" value=\"tag\"/&gt;\n&lt;/filter&gt;\n    &lt;/entity&gt;\n  &lt;/fetch&gt;"}},"embeddedObjects":[{"schemaName":"msdyn_data","isCollection":false,"embeddedObjects":[{"schemaName":"trainingLabel","specificationName":"labels","isCollection":false}]}]}]}}</msdyn_databinding>
+          <msdyn_majoriterationnumber>1</msdyn_majoriterationnumber>
+          <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
+          <msdyn_modeldata>2461afd6-86a1-4b90-a2fd-d0f8175e3ed3</msdyn_modeldata>
+          <msdyn_modelperformance>{"metrics":[{"isGlobalScore":true,"name":"AverageAccuracyOfLayouts","value":0.9950000047683716,"type":"Percentage"},{"isGlobalScore":false,"name":"LabelAverageAccuracyOverLayouts/27033299-9891-4144-97a7-ef75f7080404","value":0.9950000047683716,"type":"Percentage"},{"isGlobalScore":false,"name":"LabelAverageAccuracyOverLayouts/275e0c79-93f5-475c-b2d2-ec4ea36ff3de","value":0.9950000047683716,"type":"Percentage"},{"isGlobalScore":false,"name":"LabelAverageAccuracyOverLayouts/27d12758-cef4-497b-939e-5003820915dc","value":0.9950000047683716,"type":"Percentage"},{"isGlobalScore":false,"name":"LabelAverageAccuracyOverLayouts/6e5e6d91-94ac-4e5f-a450-435507e0337e","value":0.9950000047683716,"type":"Percentage"},{"isGlobalScore":false,"name":"LabelAverageAccuracyOverLayouts/84fb9177-37a7-4848-adf1-0c40ab103b3e","value":0.9950000047683716,"type":"Percentage"},{"isGlobalScore":false,"name":"LabelAverageAccuracyOverLayouts/e5cc423a-b059-4642-a975-57439a41ae7c","value":0.9950000047683716,"type":"Percentage"}],"details":[{"id":"b5871041-f8fa-46e3-acf3-cf6225ad94f2","category":"layout","metrics":[{"name":"accuracy","value":0.9950000047683716,"type":"Percentage"}]},{"id":"b5871041-f8fa-46e3-acf3-cf6225ad94f2/27033299-9891-4144-97a7-ef75f7080404","category":"layout/label","metrics":[{"name":"accuracy","value":0.9950000047683716,"type":"Percentage"}]},{"id":"b5871041-f8fa-46e3-acf3-cf6225ad94f2/275e0c79-93f5-475c-b2d2-ec4ea36ff3de","category":"layout/label","metrics":[{"name":"accuracy","value":0.9950000047683716,"type":"Percentage"}]},{"id":"b5871041-f8fa-46e3-acf3-cf6225ad94f2/27d12758-cef4-497b-939e-5003820915dc","category":"layout/label","metrics":[{"name":"accuracy","value":0.9950000047683716,"type":"Percentage"}]},{"id":"b5871041-f8fa-46e3-acf3-cf6225ad94f2/6e5e6d91-94ac-4e5f-a450-435507e0337e","category":"layout/label","metrics":[{"name":"accuracy","value":0.9950000047683716,"type":"Percentage"}]},{"id":"b5871041-f8fa-46e3-acf3-cf6225ad94f2/84fb9177-37a7-4848-adf1-0c40ab103b3e","category":"layout/label","metrics":[{"name":"accuracy","value":0.9950000047683716,"type":"Percentage"}]},{"id":"b5871041-f8fa-46e3-acf3-cf6225ad94f2/e5cc423a-b059-4642-a975-57439a41ae7c","category":"layout/label","metrics":[{"name":"accuracy","value":0.9950000047683716,"type":"Percentage"}]}]}</msdyn_modelperformance>
+          <msdyn_name>a3df4037-055c-49b3-9e84-b77506e6eae6_2026-05-14T07:44:53.026Z</msdyn_name>
+          <msdyn_modelrundataspecification>{
+  "SpecFormatVersion": 1,
+  "InputRootEntity": {
+    "DisplayName": "Document",
+    "Attributes": {
+      "binaryName": { "Type": "Image" }
+    }
+  }
+}</msdyn_modelrundataspecification>
+          <msdyn_type>190690000</msdyn_type>
+          <msdyn_aimodelid>{a3df4037-055c-49b3-9e84-b77506e6eae6}</msdyn_aimodelid>
+          <msdyn_lasttrainorrundate>2026-05-14T07:59:59</msdyn_lasttrainorrundate>
+          <statecode>2</statecode>
+          <statuscode>6</statuscode>
+          <IsCustomizable>1</IsCustomizable>
+          <msdyn_templateversion>1</msdyn_templateversion>
+          <msdyn_modelprovisioningmetadata>AQAAAJkAAADvu797Ikdlb2dyYXBoeSI6InVzIiwiQ2x1c3RlcklkIjoid3VzIiwiS2V5VmVyc2lvbiI6IjhiNGY0MGMwOTRlMjRmYmVhMWE1NTdkNDZiZDYwNmU4IiwiU2lnbmF0dXJlVmVyc2lvbiI6InYxIiwiU2lnbmF0dXJlRGF0ZUJpbmFyeSI6NTI1MDgyOTQ0MjQyNTEwNDMwOX0gAAAAT+Cl0L8t0CSNYgSYRvKl12tu5/lJpwV0/+a58JIAsrc1AgAAeyJ2ZXJzaW9uIjoiRG9jdW1lbnRTY2FubmluZ0NvcHlEYXRhLTEiLCJtb2RlbERhdGEiOnsiaW50ZXJuYWxTdXBlcnZpc2VkTW9kZWxJZCI6IjdmMDNiY2UwLTMzMzktNDU3ZC05ODQ4LWY5ZjA5ODE5MzUwNiIsImNvZ25pdGl2ZVN1cGVydmlzZWRSZXNvdXJjZUlkIjoiRm9ybVVuZGVyc3RhbmRpbmdBcHBsaWNhdGlvbktleS03IiwiYmFja2VuZFZlcnNpb24iOiJ2NCIsImtleUFsbG9jYXRvclZlcnNpb24iOiJ2Mi4wIiwibW9kZWxMYXlvdXRzQ29uZmlnIjp7InN1Ym1vZGVscyI6W10sImRlZmF1bHRMYXlvdXRJZCI6ImI1ODcxMDQxLWY4ZmEtNDZlMy1hY2YzLWNmNjIyNWFkOTRmMiJ9LCJGZWF0dXJlcyI6eyJjdXN0b21pemVkUHJlYnVpbHQiOnsicHJlYnVpbHRFeGNsdWRlZEZpZWxkcyI6e30sInRhZ2dlZFRhYmxlQ29sdW1ucyI6e319fSwic291cmNlSXNsYW5kSWQiOiIxMDciLCJnZW8iOiJ1cyIsImVudmlyb25tZW50SWQiOiIzNmI3NTUyMy1jYjRlLWYxMTEtYjMxZi02MDQ1YmQwYTRiMDAiLCJjYXBpTW9kZWxJZCI6IjI0NjFhZmQ2LTg2YTEtNGI5MC1hMmZkLWQwZjgxNzVlM2VkMyJ9fQ==</msdyn_modelprovisioningmetadata>
+        </AIConfiguration>
+      </AIConfigurations>
+    </AIModel>
+  </AIModels>
+  <connectionreferences>
+    <connectionreference connectionreferencelogicalname="lra_sharedapprovals_117ea">
+      <connectionreferencedisplayname>Standard approvals LeaveRequestApp-117ea</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_approvals</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="lra_sharedcommondataserviceforapps_39b83">
+      <connectionreferencedisplayname>Microsoft Dataverse LeaveRequestApp-39b83</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="lra_sharedoffice365_4f1c7">
+      <connectionreferencedisplayname>Office 365 Outlook LeaveRequestApp-4f1c7</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_office365</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="lra_sharedoffice365users_8798b">
+      <connectionreferencedisplayname>Office 365 Users LeaveRequestApp-8798b</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_office365users</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="lra_sharedsharepointonline_84419">
+      <connectionreferencedisplayname>SharePoint LeaveRequestApp-84419</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_sharepointonline</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="lra_sharedteams_b94f2">
+      <connectionreferencedisplayname>Microsoft Teams LeaveRequestApp-b94f2</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_teams</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+  </connectionreferences>
+  <Languages>
+    <Language>1033</Language>
+  </Languages>
+</ImportExportXml>

@@ -1,0 +1,244 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_teams": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedteams_b94f2"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      },
+      "shared_approvals": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedapprovals_117ea"
+        },
+        "api": {
+          "name": "shared_approvals"
+        }
+      },
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedcommondataserviceforapps_39b83"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedoffice365_4f1c7"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "8a510181-b06c-42f7-a4f6-9f7026852ee8"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 1,
+              "subscriptionRequest/entityname": "lra_leaverequest",
+              "subscriptionRequest/scope": 4
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Post_card_in_a_chat_or_channel": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "6dae54d6-c34c-4d6c-ae3a-c90bbddff921"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_teams",
+              "operationId": "PostCardToConversation",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+            },
+            "parameters": {
+              "poster": "Flow bot",
+              "location": "Channel",
+              "body/recipient/groupId": "372acafa-9206-4fa1-bdd8-a17ab5af6c22",
+              "body/recipient/channelId": "19:ZHBJKPVixqnBPJk7TImAW46pU0vyLZAZXyktNjiR2MM1@thread.tacv2",
+              "body/messageBody": "{\n  \"type\": \"AdaptiveCard\",\n  \"version\": \"1.2\",\n  \"body\": [\n    {\n      \"type\": \"TextBlock\",\n      \"text\": \"New Leave Request\",\n      \"weight\": \"Bolder\",\n      \"size\": \"Medium\"\n    },\n    {\n      \"type\": \"FactSet\",\n      \"facts\": [\n        {\"title\": \"Employee\", \"value\": \"@{triggerOutputs()?['body/lra_employeename']}\"},\n        {\"title\": \"Leave Type\", \"value\": \"@{if(equals(triggerOutputs()?['body/lra_leavetype'], 856430000), 'Vacation Leave', if(equals(triggerOutputs()?['body/lra_leavetype'], 856430001), 'Sick Leave', 'Emergency Leave'))}\"},\n        {\"title\": \"Start Date\", \"value\": \"@{formatDateTime(triggerOutputs()?['body/lra_startdate'], 'dd MMM yyyy')}\"},\n        {\"title\": \"End Date\", \"value\": \"@{formatDateTime(triggerOutputs()?['body/lra_enddate'], 'dd MMM yyyy')}\"},\n        {\"title\": \"Reason\", \"value\": \"@{triggerOutputs()?['body/lra_reason']}\"}\n      ]\n    }\n  ]\n}"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Start_and_wait_for_an_approval": {
+          "runAfter": {
+            "Post_card_in_a_chat_or_channel": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1fd195eb-d301-441c-a47b-80dce03bf64e"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_approvals",
+              "operationId": "StartAndWaitForAnApproval",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_approvals"
+            },
+            "parameters": {
+              "approvalType": "Basic",
+              "WebhookApprovalCreationInput/title": "Leave Request - @{triggerOutputs()?['body/lra_employeename']}",
+              "WebhookApprovalCreationInput/assignedTo": "admin@7f8b06.onmicrosoft.com\n\n",
+              "WebhookApprovalCreationInput/details": "Employee: @{triggerOutputs()?['body/lra_employeename']}\nEmail: @{triggerOutputs()?['body/lra_employeeemail']}\nLeave Type: @{if(equals(triggerOutputs()?['body/lra_leavetype'], 856430000), 'Vacation Leave', if(equals(triggerOutputs()?['body/lra_leavetype'], 856430001), 'Sick Leave', 'Emergency Leave'))}\nStart Date: @{formatDateTime(triggerOutputs()?['body/lra_startdate'], 'dd MMM yyyy')}\nEnd Date: @{formatDateTime(triggerOutputs()?['body/lra_enddate'], 'dd MMM yyyy')}\nReason: @{triggerOutputs()?['body/lra_reason']}",
+              "WebhookApprovalCreationInput/enableNotifications": true,
+              "WebhookApprovalCreationInput/enableReassignment": true
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Condition": {
+          "actions": {
+            "Update_a_row": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "57129bc6-a8d1-426b-8ba0-860e26231151"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateOnlyRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "lra_leaverequests",
+                  "recordId": "@triggerOutputs()?['body/lra_leaverequestid']",
+                  "item/lra_status": 856430001
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Send_an_email_(V2)": {
+              "runAfter": {
+                "Update_a_row": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "4746765a-a777-4653-a694-1e399edcf754"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_office365",
+                  "operationId": "SendEmailV2",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                },
+                "parameters": {
+                  "emailMessage/To": "@triggerOutputs()?['body/lra_employeeemail']",
+                  "emailMessage/Subject": "[APPROVED] Your request for leave has been approved",
+                  "emailMessage/Body": "<p>Hi @{triggerOutputs()?['body/lra_employeename']}, your leave request from @{triggerOutputs()?['body/lra_startdate']} to @{triggerOutputs()?['body/lra_enddate']} has been approved.</p>",
+                  "emailMessage/Importance": "Normal"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Start_and_wait_for_an_approval": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Update_a_row_2": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "96526628-9ebc-4618-aa90-32b36dd4e7fa"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_commondataserviceforapps",
+                    "operationId": "UpdateOnlyRecord",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                  },
+                  "parameters": {
+                    "entityName": "lra_leaverequests",
+                    "recordId": "@triggerOutputs()?['body/lra_leaverequestid']",
+                    "item/lra_status": 856430002,
+                    "item/lra_managercomments": "@outputs('Start_and_wait_for_an_approval')?['body/responses'][0]['comments']"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              },
+              "Send_an_email_(V2)_2": {
+                "runAfter": {
+                  "Update_a_row_2": [
+                    "Succeeded"
+                  ]
+                },
+                "metadata": {
+                  "operationMetadataId": "1704ea6a-0976-448e-931e-d1eb6912dffb"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_office365",
+                    "operationId": "SendEmailV2",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                  },
+                  "parameters": {
+                    "emailMessage/To": "@triggerOutputs()?['body/lra_employeeemail']",
+                    "emailMessage/Subject": "[REJECTED] Your request for leave has been rejected",
+                    "emailMessage/Body": "<p>Hi @{triggerOutputs()?['body/lra_employeename']}, your leave request from @{triggerOutputs()?['body/lra_startdate']} to @{triggerOutputs()?['body/lra_enddate']} has been rejected. Reason: @{outputs('Start_and_wait_for_an_approval')?['body/responses'][0]['comments']}</p>",
+                    "emailMessage/Importance": "Normal"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              }
+            }
+          },
+          "expression": {
+            "equals": [
+              "@outputs('Start_and_wait_for_an_approval')?['body/outcome']",
+              "Approve"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "be266ef3-4ae6-4059-9e81-779bca321768"
+          },
+          "type": "If"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

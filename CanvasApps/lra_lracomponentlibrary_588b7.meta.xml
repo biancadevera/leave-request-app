@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>lra_lracomponentlibrary_588b7</Name>
+  <AppVersion>2026-05-14T12:44:46Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>3.26044.15.0</CreatedByClientVersion>
+  <MinClientVersion>3.26044.15.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"56","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Phone","showStatusBar":"false","publisherVersion":"3.26044.15","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"true","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","sienaVersion":"20260514T105110Z-3.26044.15.0"}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>RGBA(251,101,60,1)</BackgroundColor>
+  <DisplayName>LRA_ComponentLibrary</DisplayName>
+  <Description xsi:nil="true"></Description>
+  <CommitMessage xsi:nil="true"></CommitMessage>
+  <Publisher xsi:nil="true"></Publisher>
+  <AuthorizationReferences>[]</AuthorizationReferences>
+  <ConnectionReferences>{}</ConnectionReferences>
+  <DatabaseReferences>{}</DatabaseReferences>
+  <AppComponents>[{"appComponentName":"d068e1eeaa6642b1bc719a86a627260a","displayName":"cmp_Header","appName":"10083cbd-5a2c-402c-b2b3-c9dafc07bd9e","appVersion":"2026-05-14T12:44:46Z","appComponentLibraryLogicalName":"lra_lracomponentlibrary_588b7","appDisplayName":"LRA_ComponentLibrary","environmentName":"1ec4dedf-d67c-ef93-bc28-da4a5cac6615","owner":{"id":"b9c35714-8044-4294-9411-0288699e49eb","displayName":"Bianca De Vera","email":"admin@7f8b06.onmicrosoft.com","type":"User","tenantId":"02b505bc-0110-481e-a8df-1bd1d0f82b9b","userPrincipalName":"admin@7f8b06.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-05-14T08:11:24.96Z","lastModifiedOn":"2026-05-14T12:43:45.372Z","connectionReferences":{},"databaseReferences":{}},{"appComponentName":"5ff61d7a802c4d0d80029863afd3eff0","displayName":"cmp_NavBar","appName":"10083cbd-5a2c-402c-b2b3-c9dafc07bd9e","appVersion":"2026-05-14T12:44:46Z","appComponentLibraryLogicalName":"lra_lracomponentlibrary_588b7","appDisplayName":"LRA_ComponentLibrary","environmentName":"1ec4dedf-d67c-ef93-bc28-da4a5cac6615","owner":{"id":"b9c35714-8044-4294-9411-0288699e49eb","displayName":"Bianca De Vera","email":"admin@7f8b06.onmicrosoft.com","type":"User","tenantId":"02b505bc-0110-481e-a8df-1bd1d0f82b9b","userPrincipalName":"admin@7f8b06.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-05-14T08:11:24.96Z","lastModifiedOn":"2026-05-14T12:43:45.372Z","connectionReferences":{},"databaseReferences":{}},{"appComponentName":"27ae7d5be8084f0295421fb6c849d28f","displayName":"cmp_BalanceCard","appName":"10083cbd-5a2c-402c-b2b3-c9dafc07bd9e","appVersion":"2026-05-14T12:44:46Z","appComponentLibraryLogicalName":"lra_lracomponentlibrary_588b7","appDisplayName":"LRA_ComponentLibrary","environmentName":"1ec4dedf-d67c-ef93-bc28-da4a5cac6615","owner":{"id":"b9c35714-8044-4294-9411-0288699e49eb","displayName":"Bianca De Vera","email":"admin@7f8b06.onmicrosoft.com","type":"User","tenantId":"02b505bc-0110-481e-a8df-1bd1d0f82b9b","userPrincipalName":"admin@7f8b06.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-05-14T08:11:24.96Z","lastModifiedOn":"2026-05-14T12:43:45.372Z","connectionReferences":{},"databaseReferences":{}},{"appComponentName":"0906ae1e7cb34c87867fbf662c54ebf2","displayName":"cmp_StatusBadge","appName":"10083cbd-5a2c-402c-b2b3-c9dafc07bd9e","appVersion":"2026-05-14T12:44:46Z","appComponentLibraryLogicalName":"lra_lracomponentlibrary_588b7","appDisplayName":"LRA_ComponentLibrary","environmentName":"1ec4dedf-d67c-ef93-bc28-da4a5cac6615","owner":{"id":"b9c35714-8044-4294-9411-0288699e49eb","displayName":"Bianca De Vera","email":"admin@7f8b06.onmicrosoft.com","type":"User","tenantId":"02b505bc-0110-481e-a8df-1bd1d0f82b9b","userPrincipalName":"admin@7f8b06.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-05-14T08:11:24.96Z","lastModifiedOn":"2026-05-14T12:43:45.372Z","connectionReferences":{},"databaseReferences":{}}]</AppComponents>
+  <AppComponentDependencies>[]</AppComponentDependencies>
+  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanvasAppType>1</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <AdminControlBypassConsent>0</AdminControlBypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies>{"cdsdependencies":[]}</CdsDependencies>
+  <IsCustomizable>1</IsCustomizable>
+  <BackgroundImageUri>/CanvasApps/lra_lracomponentlibrary_588b7_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/lra_lracomponentlibrary_588b7_DocumentUri.msapp</DocumentUri>
+  <AdditionalUris>
+    <AdditionalUri>/CanvasApps/lra_lracomponentlibrary_588b7_AdditionalUris0_identity.json</AdditionalUri>
+  </AdditionalUris>
+</CanvasApp>

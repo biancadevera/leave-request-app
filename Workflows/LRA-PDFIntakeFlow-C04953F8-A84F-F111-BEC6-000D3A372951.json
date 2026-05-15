@@ -1,0 +1,215 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedsharepointonline_84419"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedcommondataserviceforapps_39b83"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedoffice365_4f1c7"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_file_is_created_(properties_only)": {
+          "recurrence": {
+            "interval": 1,
+            "frequency": "Minute"
+          },
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "metadata": {
+            "operationMetadataId": "4287dc57-3592-4f61-91db-e23e19a679d4"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetOnNewFileItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://7f8b06.sharepoint.com/sites/U.S.Sales",
+              "table": "013a33ea-8733-4335-81d1-855864c837bd",
+              "folderPath": "/Shared Documents/General/LeaveFormUploads"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Get_file_content": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "26070a9c-59d0-458e-81a7-74befdcc5173"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetFileContent",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://7f8b06.sharepoint.com/sites/U.S.Sales",
+              "id": "@triggerOutputs()?['body/{Identifier}']",
+              "inferContentType": true
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Process_documents": {
+          "runAfter": {
+            "Get_file_content": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a78621b4-15cb-42a2-940a-690843a30413",
+            "flowSystemMetadata": {
+              "portalOperationId": "aibuilderpredict_formsprocessing",
+              "portalOperationGroup": "aibuilder",
+              "portalOperationApiDisplayNameOverride": "AI Builder",
+              "portalOperationIconOverride": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/aibuilderIcon2026.8e878397.png",
+              "portalOperationBrandColorOverride": "#0A76C4",
+              "portalOperationApiTierOverride": "Standard"
+            }
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "aibuilderpredict_formsprocessing",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "recordId": "a3df4037-055c-49b3-9e84-b77506e6eae6",
+              "item/requestv2/mimeType": "application/pdf",
+              "item/requestv2/base64Encoded": "@body('Get_file_content')"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Condition": {
+          "actions": {
+            "Add_a_new_row": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "ca5f2e70-f4db-4763-b241-6f2d46697d34"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "lra_leaverequests",
+                  "item/lra_employeeemail": "@outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Employee14cdb9186bb3cbecf8ab2dec0e4fd00c/value']",
+                  "item/lra_employeename": "@outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Employeea26716398fb75fe0cdbc7c03f4a436ed/value']",
+                  "item/lra_enddate": "@outputs('Process_documents')?['body/responsev2/predictionOutput/labels/End_0020e970951cfb6b60b18418085390e96228/value']",
+                  "item/lra_leavetype": "@if(equals(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Leave_007cbb5f0304609cd572f996ed8e117d39/value'], 'Vacation Leave'), 856430000, if(equals(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Leave_007cbb5f0304609cd572f996ed8e117d39/value'], 'Sick Leave'), 856430001, 856430002))",
+                  "item/lra_reason": "@outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Reason/value']",
+                  "item/lra_startdate": "@outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Start_004c52faad5dc6e248b23dcb6441d4f1bc/value']",
+                  "item/lra_status": 856430000,
+                  "item/lra_submittedon": "@utcNow()"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "ConfidenceScores": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Send_an_email_(V2)": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "c470a2ed-a670-40f3-a077-8398dcb8bcba"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_office365",
+                    "operationId": "SendEmailV2",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                  },
+                  "parameters": {
+                    "emailMessage/To": "admin@7f8b06.onmicrosoft.com",
+                    "emailMessage/Subject": "Low confidence PDF extraction — manual review needed",
+                    "emailMessage/Body": "<p>A leave form PDF was uploaded but the AI extraction confidence was below 80%. Please review manually. File: @{triggerOutputs()?['body/Name']}</p>",
+                    "emailMessage/Importance": "Normal"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              }
+            }
+          },
+          "expression": {
+            "and": [
+              {
+                "greater": [
+                  "@float(coalesce(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Reason/confidence'], 0))",
+                  0.5
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a9bbab34-bf48-4d9e-a237-2ae2e0fe4b2c"
+          },
+          "type": "If"
+        },
+        "ConfidenceScores": {
+          "runAfter": {
+            "Process_documents": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1cd00be7-455b-4760-8916-e30334df551d"
+          },
+          "type": "Compose",
+          "inputs": "@json(concat('{\"EmployeeName\":', string(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Employeea26716398fb75fe0cdbc7c03f4a436ed/confidence']), ',\"EmployeeEmail\":', string(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Employee14cdb9186bb3cbecf8ab2dec0e4fd00c/confidence']), ',\"LeaveType\":', string(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Leave_007cbb5f0304609cd572f996ed8e117d39/confidence']), ',\"StartDate\":', string(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Start_004c52faad5dc6e248b23dcb6441d4f1bc/confidence']), ',\"EndDate\":', string(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/End_0020e970951cfb6b60b18418085390e96228/confidence']), ',\"Reason\":', string(outputs('Process_documents')?['body/responsev2/predictionOutput/labels/Reason/confidence']), ',\"LayoutConfidence\":', string(outputs('Process_documents')?['body/responsev2/predictionOutput/layoutConfidenceScore']), '}'))"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

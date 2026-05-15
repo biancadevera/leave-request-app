@@ -1,0 +1,220 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedoffice365_4f1c7"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      },
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedcommondataserviceforapps_39b83"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_office365users": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "lra_sharedoffice365users_8798b"
+        },
+        "api": {
+          "name": "shared_office365users"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_new_email_arrives_in_a_shared_mailbox_(V2)": {
+          "recurrence": {
+            "interval": 1,
+            "frequency": "Minute"
+          },
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "metadata": {
+            "operationMetadataId": "ef2f51b9-da2c-438e-8d42-7ccd7abf9d47"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365",
+              "operationId": "SharedMailboxOnNewEmailV2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+            },
+            "parameters": {
+              "mailboxAddress": "leaverequest@7f8b06.onmicrosoft.com;",
+              "folderId": "Inbox",
+              "importance": "Any",
+              "hasAttachments": false,
+              "includeAttachments": false,
+              "subjectFilter": "Leave Request"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Run_a_prompt": {
+          "runAfter": {
+            "Get_user_profile_(V2)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c2587538-6092-441b-9e08-60f74b5e010b"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "aibuilderpredict_customprompt",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "recordId": "198e7056-b527-4a7b-b0d0-7a51c9e2d944",
+              "item/requestv2/EmailBody": "@triggerOutputs()?['body/body']"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Parse_JSON": {
+          "runAfter": {
+            "Run_a_prompt": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "7d85d48a-98a4-49df-acfe-329c14926ffa"
+          },
+          "type": "ParseJson",
+          "inputs": {
+            "content": "@outputs('Run_a_prompt')?['body/responsev2/predictionOutput/text']",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "LeaveType": {
+                  "type": "string"
+                },
+                "StartDate": {
+                  "type": "string"
+                },
+                "EndDate": {
+                  "type": "string"
+                },
+                "Reason": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "AI_Output": {
+          "runAfter": {
+            "Parse_JSON": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ebf5aa31-8a5b-4e6a-b303-3f5ee93b36ab"
+          },
+          "type": "Compose",
+          "inputs": "@outputs('Run_a_prompt')?['body/responsev2/predictionOutput/text']"
+        },
+        "Get_user_profile_(V2)": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "cb86b344-a5ea-45f4-aa11-3bf1e3cfcc54"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365users",
+              "operationId": "UserProfile_V2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365users"
+            },
+            "parameters": {
+              "id": "@triggerOutputs()?['body/from']"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Add_a_new_row": {
+          "runAfter": {
+            "AI_Output": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "3d85e618-3fa6-4b95-b966-0fb686a1ef10"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "CreateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "lra_leaverequests",
+              "item/lra_employeeemail": "@triggerOutputs()?['body/from']",
+              "item/lra_employeename": "@outputs('Get_user_profile_(V2)')?['body/displayName']",
+              "item/lra_enddate": "@body('Parse_JSON')?['EndDate']",
+              "item/lra_leavetype": "@if(equals(body('Parse_JSON')?['LeaveType'], 'Vacation'), 856430000, if(equals(body('Parse_JSON')?['LeaveType'], 'Sick'), 856430001, 856430002))",
+              "item/lra_reason": "@body('Parse_JSON')?['Reason']",
+              "item/lra_startdate": "@body('Parse_JSON')?['StartDate']",
+              "item/lra_status": 856430000,
+              "item/lra_submittedon": "@utcNow()"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Send_an_email_from_a_shared_mailbox_(V2)": {
+          "runAfter": {
+            "Add_a_new_row": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8e98a50f-b375-46d7-a05b-ca38c805f532"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365",
+              "operationId": "SharedMailboxSendEmailV2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+            },
+            "parameters": {
+              "emailMessage/MailboxAddress": "leaverequest@7f8b06.onmicrosoft.com",
+              "emailMessage/To": "@triggerOutputs()?['body/from']",
+              "emailMessage/Subject": "Request for Leave received - Pending approval",
+              "emailMessage/Body": "<p>Hi @{outputs('Get_user_profile_(V2)')?['body/displayName']},<br>\n<br>\nYour leave request has been received and is pending manager approval. You will be notified once a decision is made.<br>\n<br>\nThank you</p>",
+              "emailMessage/Importance": "Normal"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

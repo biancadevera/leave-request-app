@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EntityRelationship Name="business_unit_lra_leavebalance" />
+  <EntityRelationship Name="business_unit_lra_leaverequest" />
+  <EntityRelationship Name="lk_lra_leavebalance_createdby" />
+  <EntityRelationship Name="lk_lra_leavebalance_modifiedby" />
+  <EntityRelationship Name="lk_lra_leaverequest_createdby" />
+  <EntityRelationship Name="lk_lra_leaverequest_modifiedby" />
+  <EntityRelationship Name="owner_lra_leavebalance" />
+  <EntityRelationship Name="owner_lra_leaverequest" />
+  <EntityRelationship Name="team_lra_leavebalance" />
+  <EntityRelationship Name="team_lra_leaverequest" />
+  <EntityRelationship Name="user_lra_leavebalance" />
+  <EntityRelationship Name="user_lra_leaverequest" />
+</EntityRelationships>

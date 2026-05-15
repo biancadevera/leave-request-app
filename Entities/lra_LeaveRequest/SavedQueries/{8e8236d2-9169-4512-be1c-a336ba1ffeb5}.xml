@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{8e8236d2-9169-4512-be1c-a336ba1ffeb5}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="lra_employeename" select="1" icon="1" preview="1">
+        <row name="result" id="lra_leaverequestid">
+          <cell name="lra_employeename" width="300" />
+          <cell name="lra_leavetype" width="150" />
+          <cell name="lra_startdate" width="150" />
+          <cell name="lra_enddate" width="150" />
+          <cell name="lra_reason" width="150" />
+          <cell name="lra_status" width="150" />
+          <cell name="lra_managercomments" width="150" />
+          <cell name="lra_submittedon" width="150" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="lra_leaverequest">
+          <attribute name="lra_leaverequestid" />
+          <attribute name="lra_employeename" />
+          <attribute name="createdon" />
+          <order attribute="lra_employeename" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="lra_leavetype" />
+          <attribute name="lra_startdate" />
+          <attribute name="lra_enddate" />
+          <attribute name="lra_reason" />
+          <attribute name="lra_status" />
+          <attribute name="lra_managercomments" />
+          <attribute name="lra_submittedon" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active Leave Requests" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

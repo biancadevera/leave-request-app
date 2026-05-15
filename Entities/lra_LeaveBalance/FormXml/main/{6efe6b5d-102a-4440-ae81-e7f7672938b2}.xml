@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{6efe6b5d-102a-4440-ae81-e7f7672938b2}</formid>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{34ff7a7d-0e57-4f0d-8719-40123b38fb03}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{853b2a98-8b13-4ade-b0a2-26df760bf464}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{08b1eec3-59dd-4428-80cb-ce6474a87c1f}">
+                        <labels>
+                          <label description="Employee Email" languagecode="1033" />
+                        </labels>
+                        <control id="lra_employeeemail" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="lra_employeeemail" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{332d7dcf-0bbd-4291-ad8c-a5862e6ea80c}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{5f41e81d-6377-417c-80e8-61e0c902495f}">
+                        <labels>
+                          <label description="Vacation Balance" languagecode="1033" />
+                        </labels>
+                        <control id="lra_vacationbalance" classid="{c6d124ca-7eda-4a60-aea9-7fb8d318b68f}" datafieldname="lra_vacationbalance" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c3c5d419-4d55-4788-8fa1-82e876d3c6f5}">
+                        <labels>
+                          <label description="Sick Balance" languagecode="1033" />
+                        </labels>
+                        <control id="lra_sickbalance" classid="{c6d124ca-7eda-4a60-aea9-7fb8d318b68f}" datafieldname="lra_sickbalance" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{606cce69-4b2b-4bd9-ab27-ccca7980aa9c}">
+                        <labels>
+                          <label description="Emergency Balance" languagecode="1033" />
+                        </labels>
+                        <control id="lra_emergencybalance" classid="{c6d124ca-7eda-4a60-aea9-7fb8d318b68f}" datafieldname="lra_emergencybalance" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>
