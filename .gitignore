@@ -1,0 +1,4 @@
+*.zip
+*.msapp.bak
+node_modules/
+.DS_Store
